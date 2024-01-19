@@ -1,46 +1,47 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Layout from "./components/Layout";
-import Index from "./pages/Index";
-import NuevoCliente from "./pages/NuevoCliente";
-import EditarCliente from "./pages/EditarCliente";
-import ErrorPage from "./components/ErrorPage";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Layout from './components/Layout';
+import Index, { loader as clientesLoader } from './pages/Index';
+import NuevoCliente, { action as nuevoClienteAction } from './pages/NuevoCliente';
+import { action as eliminarClienteAction } from './components/Cliente';
+import EditarCliente, { action as editarClienteAction, loader as editarClienteLoader } from './pages/EditarCliente';
+import ErrorPage from './components/ErrorPage';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Layout />,
     children: [
       {
         index: true,
         element: <Index />,
-        // loader: clientesLoader,
+        loader: clientesLoader,
         errorElement: <ErrorPage />,
       },
       {
-        path: "/clientes/nuevo",
+        path: '/clientes/nuevo',
         element: <NuevoCliente />,
-        // action: nuevoClienteAction,
+        action: nuevoClienteAction,
         errorElement: <ErrorPage />,
       },
       {
-        path: "/clientes/:clienteId/editar",
+        path: '/clientes/:clienteId/editar',
         element: <EditarCliente />,
-        // loader: editarClienteLoader,
-        // action: editarClienteAction,
+        loader: editarClienteLoader,
+        action: editarClienteAction,
         errorElement: <ErrorPage />,
       },
-      // {
-      //   path: '/clientes/:clienteId/eliminar',
-      //   action: eliminarClienteAction
-      // }
+      {
+        path: '/clientes/:clienteId/eliminar',
+        action: eliminarClienteAction,
+      },
     ],
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>
